@@ -1,0 +1,9 @@
+{
+"packages":[],
+"zone_packages":
+[{"ticket_type":[{"ticket_type":"int$113","ticket_count":1,"trans_num":1,"refund_num":0}],
+"zone_group":"武汉园博会","ticket_key":"6242644229"}],
+"order_nbr":"10000000052017012400230687","order_amount":"",
+"order_nbr_original":"16272596","order_contacts":"测试",
+"contacts_tel":"15997963291","order_remark":"","use_date":"20170128","order_status":"10"
+}
