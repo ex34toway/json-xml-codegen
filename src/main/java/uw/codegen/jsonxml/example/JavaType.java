@@ -99,7 +99,7 @@ public class JavaType {
      * @return
      */
     public String getImportPath(){
-        return PRIMITIVE_TYPE_MAP.get(this.type);
+        return NEED_IMPORT_TYPE.get(this.type);
     }
 
     /**
