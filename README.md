@@ -18,6 +18,7 @@
 #### 更新日志
 2.1.1 更新:
    1. 支持对象默认以new对象形式初始化(原始类型和String除外)
+   
 2.1.0 更新:
    1. 注解默认生成在Vo的getter器上,避免非驼峰式属性Vo序列化时生成两个不同的属性;
    2. XML类型生成Vo时默认使用jackson-dataformat-xm,支持XML属性(需要手动修改注解添加 isAttribute = true),XML CDATA标签(需要手动添加注解);
