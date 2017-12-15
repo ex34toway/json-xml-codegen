@@ -89,7 +89,7 @@ public class GenerationTool {
         this.generationConfig = config;
         this.annotationStyle = config.getAnnotationStyle();
         // 文件名,可内部修饰
-        this.fileName = firstUpperCase(StringUtils.substringBeforeLast(fileName,"."));
+        this.fileName = firstUpperCaseCamel(StringUtils.substringBeforeLast(fileName,"."));
         this.filePath = config.getOutDirectory() + File.separator + config.getPackageName().replace('.', File.separatorChar);
         this.jsonTokener = new JSONTokener(json);
     }
@@ -131,7 +131,7 @@ public class GenerationTool {
                 JavaType javaType = null;
                 if(prop instanceof JSONObject){// 对象
                     // 继续迭代
-                    javaType = new JavaType(needCamel() ? firstUpperCase(name) : name,"");
+                    javaType = new JavaType(needCamel() ? firstUpperCaseCamel(name) : firstToUpper(name),"");
                     mainProp.put(name,javaType);
                     getJavaObject(name,javaType.getType(),rootId,(JSONObject)prop);
                 }else if(prop instanceof JSONArray){//数组
@@ -141,7 +141,7 @@ public class GenerationTool {
                     else {
                         Object object = array.get(0);
                         if (object instanceof JSONObject) {
-                            javaType = new JavaType(needCamel() ? firstUpperCase(name) : name,"");
+                            javaType = new JavaType(needCamel() ? firstUpperCaseCamel(name) : firstToUpper(name),"");
 
                             // 登记一个类型
                             getJavaObject(name,javaType.getType(), rootId, (JSONObject) object);
@@ -230,7 +230,7 @@ public class GenerationTool {
             String typeName = javaType.getType();
             String name = typeEntry.getKey();
             String javaName = toCamel(name);
-            String getterSetterName = needCamel() ? firstUpperCase(name) : name;
+            String getterSetterName = needCamel() ? firstUpperCaseCamel(name) : firstToUpper(name);
             out.write(String.format("%spublic void set%s(%s %s) {%s",Strings.repeat(propW,indent),getterSetterName,typeName,javaName,lineSeparator));
             out.write(String.format("%sthis.%s = %s;%s%s}",Strings.repeat(propW,indent+1),javaName,javaName,lineSeparator,Strings.repeat(propW,indent)));
             // 统一写GET上
@@ -517,18 +517,50 @@ public class GenerationTool {
      * @param str
      * @return
      */
-    private static String firstUpperCase(String str){
+    private static String firstToUpper(String str){
+        int strLen;
+        if (str == null || (strLen = str.length()) == 0) {
+            return str;
+        }
+        return new StringBuffer(strLen)
+                .append(Character.toUpperCase(str.charAt(0)))
+                .append(str.substring(1))
+                .toString();
+    }
+
+    /**
+     * 首字母小写
+     * @param str
+     * @return
+     */
+    private static String firstToLower(String str){
+        int strLen;
+        if (str == null || (strLen = str.length()) == 0) {
+            return str;
+        }
+        return new StringBuffer(strLen)
+                .append(Character.toLowerCase(str.charAt(0)))
+                .append(str.substring(1))
+                .toString();
+    }
+
+    /**
+     * 下划线转首字母大写Camel
+     * @param str
+     * @return
+     */
+    private static String firstUpperCaseCamel(String str){
         if(StringUtils.isNotBlank(str))
             return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL,str);
         return "";
     }
 
     /**
-     * 首字母小写写
+     * 下划线转首字母小写Camel
      * @param str
      * @return
      */
-    private static String firstLowerCase(String str){
+    private static String firstLowerCaseCamel(String str){
         if(StringUtils.isNotBlank(str))
             return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL,str);
         return "";
@@ -542,7 +574,7 @@ public class GenerationTool {
     private String toCamel(String str){
         if(generationConfig.isCamel())
             return str;
-        return firstLowerCase(str);
+        return firstLowerCaseCamel(str);
     }
 
     /**
@@ -599,7 +631,7 @@ public class GenerationTool {
         if(typeSet.contains(typeLabel))
             return null;
         typeSet.add(typeLabel);
-        Json2JavaVo json2JavaVo = new Json2JavaVo(propName,className,pId);
+        Json2JavaVo json2JavaVo = new Json2JavaVo(propName,firstToUpper(className),pId);
         long psId = json2JavaVo.getId();
         Map<String,JavaType> propMap = Maps.newHashMap();
         Iterator<String> key = jsonObject.keys();
@@ -609,7 +641,7 @@ public class GenerationTool {
             JavaType javaType = null;
             if(prop instanceof JSONObject){// 对象
                 // 继续迭代
-                javaType = new JavaType(needCamel() ? firstUpperCase(name) : name,"");
+                javaType = new JavaType(needCamel() ? firstUpperCaseCamel(name) : firstToUpper(name),"");
                 propMap.put(name,javaType);
                 getJavaObject(name,javaType.getType(),psId,(JSONObject)prop);
             }else if(prop instanceof JSONArray){//数组
@@ -619,7 +651,7 @@ public class GenerationTool {
                 else {
                     Object object = array.get(0);
                     if (object instanceof JSONObject) {
-                        javaType = new JavaType(needCamel() ? firstUpperCase(name) : name,"");
+                        javaType = new JavaType(needCamel() ? firstUpperCaseCamel(name) : firstToUpper(name),"");
                         // 登记一个类型
                         getJavaObject(name,javaType.getType(), psId, (JSONObject) object);
                     } else {

@@ -81,7 +81,6 @@
 	</dependencies>
 
 	<build>
-		<pluginManagement>
 			<plugins>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -101,6 +100,7 @@
                     <executions>
                         <execution>
                             <id>xml-test</id>
+                            <phase>compile</phase>
                             <configuration>
                                 <generationType>XML</generationType>
                                 <annotationStyle>JACKSON2</annotationStyle>
@@ -114,6 +114,7 @@
                         </execution>
                         <execution>
                             <id>json-test</id>
+                            <phase>compile</phase>
                             <configuration>
                                 <generationType>JSON</generationType>
                                 <annotationStyle>JACKSON2</annotationStyle>
@@ -130,8 +131,6 @@
                     </executions>
                 </plugin>
 			</plugins>
-
-		</pluginManagement>
 	</build>
 	<repositories>
 		<repository>
