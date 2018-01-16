@@ -36,7 +36,7 @@ public class JsonCodeGenTest {
 
             @Override
             public String[] getIncludeFiles() {
-                return new String[]{"lvmama_price.xml"};
+                return new String[]{"data.xml"};
             }
 
             @Override

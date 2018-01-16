@@ -297,7 +297,10 @@ public class GenerationTool {
                         case CLASS:
                             builder.append(lineSeparator)
                                     .append(Strings.repeat(propW, indent - 1))
-                                    .append("@JsonInclude(JsonInclude.Include.NON_NULL)");
+                                    .append("@JsonInclude(JsonInclude.Include.NON_NULL)")
+                                    .append(lineSeparator)
+                                    .append(Strings.repeat(propW, indent - 1))
+                                    .append("@JsonIgnoreProperties(ignoreUnknown = true)");
                             break;
                         case PROPERTY:
                             if (generationConfig.isGenerateJavaDoc()) {
@@ -315,7 +318,10 @@ public class GenerationTool {
                         case CLASS:
                             builder.append(lineSeparator)
                                     .append(Strings.repeat(propW, indent - 1))
-                                    .append("@JacksonXmlRootElement(localName = \"").append(propName).append("\")");
+                                    .append("@JacksonXmlRootElement(localName = \"").append(propName).append("\")")
+                                    .append(lineSeparator)
+                                    .append(Strings.repeat(propW, indent - 1))
+                                    .append("@JsonIgnoreProperties(ignoreUnknown = true)");
                             break;
                         case PROPERTY:
                             if (generationConfig.isGenerateJavaDoc()) {
@@ -396,11 +402,13 @@ public class GenerationTool {
             case JACKSON2:
                 switch (generationConfig.getGenerationType()){
                     case JSON:
+                        out.write(String.format("import com.fasterxml.jackson.annotation.JsonIgnoreProperties;%s",lineSeparator));
                         out.write(String.format("import com.fasterxml.jackson.annotation.JsonInclude;%s",lineSeparator));
                         out.write(String.format("import com.fasterxml.jackson.annotation.JsonProperty;%s",lineSeparator));
                         out.write(String.format("import com.fasterxml.jackson.annotation.JsonPropertyOrder;%s",lineSeparator));
                         break;
                     case XML:
+                        out.write(String.format("import com.fasterxml.jackson.annotation.JsonIgnoreProperties;%s",lineSeparator));
                         out.write(String.format("import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;%s",lineSeparator));
                         out.write(String.format("import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;%s",lineSeparator));
                         out.write(String.format("import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;%s",lineSeparator));

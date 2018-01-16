@@ -16,6 +16,8 @@
 2. 对Camel的识别不灵活，这需要一些Spell检查工具，目前只是让用户自行决定生成类是否需要进行Camel处理。
 
 #### 更新日志
+2.1.4 更新:
+   1. 主要添加@JsonIgnoreProperties(ignoreUnknown = true)注解,防止Vo字段与json/xml数据不一致而引发错误
 2.1.3 更新:
    1. 主要解决非Camel时getter setter大小写问题
    
